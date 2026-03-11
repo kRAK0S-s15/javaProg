@@ -126,13 +126,13 @@ public class Lab2 {
 
             // --- Part A: using double
             double grossPerUnitDoubleKhraneka = netPriceDoubleKhraneka * (1.0 + vatRateDoubleKhraneka);
-            System.out.printf("[A1] Gross per unit (double): %.10f%n", grossPerUnitDoubleKhraneka);
+            System.out.printf("[A1] Gross per unit (double): %.15f%n", grossPerUnitDoubleKhraneka);
 
             double totalGrossDoubleKhraneka = grossPerUnitDoubleKhraneka * quantityKhraneka;
-            System.out.printf("[A2] Total gross (double): %.10f%n", totalGrossDoubleKhraneka);
+            System.out.printf("[A2] Total gross (double): %.15f%n", totalGrossDoubleKhraneka);
 
             double backToNetDoubleKhraneka = totalGrossDoubleKhraneka / (1.0 + vatRateDoubleKhraneka);
-            System.out.printf("[A3] Back to net from total gross (double): %.10f%n", backToNetDoubleKhraneka);
+            System.out.printf("[A3] Back to net from total gross (double): %.15f%n", backToNetDoubleKhraneka);
 
             double expectedNetTotalDouble = netPriceDoubleKhraneka * quantityKhraneka;
             double driftDouble = backToNetDoubleKhraneka - expectedNetTotalDouble;
@@ -177,6 +177,14 @@ public class Lab2 {
             System.out.println("[B8] Expected net total (BigDecimal): " + expectedNetTotalBDKhraneka);
             System.out.println("[B9] Back-to-net equals expected? " +
                     (backToNetBDKhraneka.compareTo(expectedNetTotalBDKhraneka) == 0));
+
+            System.out.println("\n=== CONCLUSIONS ===");
+            System.out.println("1) double shows tiny rounding errors (binary floating point), which drift in totals");
+            System.out.println("2) BigDecimal (constructed from STRING or valueOf) preserves exact decimal values");
+            System.out.println("3) Rounding strategy matters: per-item rounding vs round-at-end can change totals");
+            System.out.println("4) NEVER use new BigDecimal([double format])" +
+                    " Use new BigDecimal(\"9.99\")");
+
         }
     }
 }
