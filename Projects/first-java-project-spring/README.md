@@ -15,7 +15,7 @@ The application runs on an embedded Tomcat server and is accessible at `localhos
 ---
 
 ## Technologies Used
-- Java
+- Java 25
 - Spring Boot
 - Spring Web
 - Thymeleaf
@@ -31,4 +31,29 @@ This controller is responsible for handling HTTP requests and returning response
 
 ```java
 @Controller
-public class HelloController {
+public class HelloController {}
+```
+```java
+    @GetMapping (value = "/")
+    @ResponseBody // to avoid 500 error
+        public String hello() {
+        return "Hello World, in my first controller!";
+    }   
+```
+<p>
+  <img width="auto" height="auto" src="https://i.postimg.cc/Qx8x4Grq/ss-8080.png" alt="ss-8080">
+</p>
+
+---
+
+```java
+    @GetMapping (value = "/greeting")
+        public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "greeting";
+    }
+```
+
+<p>
+  <img width="auto" height="auto" src="https://i.postimg.cc/bNyNCcjm/ss-greeting.png" alt="ss-greeting">
+</p>
