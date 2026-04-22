@@ -32,7 +32,7 @@ public class Task3 {
             return;
         }
 
-        float delta = b * b - 4f * a * c;
+        float delta = (float) Math.pow(b, 2) - 4f * a * c;
         int rootsCount;
         if (delta < 0f) {
             rootsCount = 0;
