@@ -1,5 +1,7 @@
 package alutsiv.second_java_project_spring.product.api;
 
+import alutsiv.second_java_project_spring.product.api.request.UpdateProductRequest;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,26 @@ import alutsiv.second_java_project_spring.product.service.ProductService;
 public class ProductController {
 
     private final ProductService productService;
+
     public ProductController(ProductService productService) {this.productService = productService;}
 
     @PostMapping
     public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest productRequest) {
         ProductResponse productResponse =  productService.create(productRequest);
         return new  ResponseEntity<>(productResponse, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Find product by id")
+    public ResponseEntity<ProductResponse> find(@PathVariable Long id) {
+        ProductResponse productResponse = productService.find(id);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update product")
+    public ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody UpdateProductRequest updateProductRequest) {
+        ProductResponse productResponse = productService.update(id, updateProductRequest);
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
     }
 }
