@@ -1,13 +1,16 @@
 package alutsiv.second_java_project_spring.product.service;
 
 import alutsiv.second_java_project_spring.product.api.request.UpdateProductRequest;
+import alutsiv.second_java_project_spring.product.repository.ProductRepository;
 import alutsiv.second_java_project_spring.product.support.ProductExceptionSupplier;
 import org.springframework.stereotype.Service;
 import alutsiv.second_java_project_spring.product.api.request.ProductRequest;
 import alutsiv.second_java_project_spring.product.api.response.ProductResponse;
 import alutsiv.second_java_project_spring.product.domain.Product;
-import alutsiv.second_java_project_spring.product.repository.ProductRepository;
 import alutsiv.second_java_project_spring.product.support.ProductMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -35,5 +38,14 @@ public class ProductService {
                 ProductExceptionSupplier.productNotFound(id));
         productRepository.save(productMapper.toProduct(product, updateProductRequest));
         return productMapper.toProductResponse(product);
+    }
+
+    public List<ProductResponse> findAll() {
+        return productRepository.findAll().stream().map(productMapper::toProductResponse).collect(Collectors.toList());
+    }
+
+    public void delete(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(ProductExceptionSupplier.productNotFound(id));
+        productRepository.deleteById(product.getId());
     }
 }

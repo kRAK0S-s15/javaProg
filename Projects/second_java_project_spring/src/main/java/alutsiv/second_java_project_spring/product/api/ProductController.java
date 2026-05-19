@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import alutsiv.second_java_project_spring.product.api.request.ProductRequest;
 import alutsiv.second_java_project_spring.product.api.response.ProductResponse;
 import alutsiv.second_java_project_spring.product.service.ProductService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -35,5 +36,19 @@ public class ProductController {
     public ResponseEntity<ProductResponse> update(@PathVariable Long id, @RequestBody UpdateProductRequest updateProductRequest) {
         ProductResponse productResponse = productService.update(id, updateProductRequest);
         return ResponseEntity.status(HttpStatus.OK).body(productResponse);
+    }
+
+    @GetMapping
+    @Operation(summary = "Find all products")
+    public ResponseEntity<List<ProductResponse>> findAll() {
+        List<ProductResponse> productResponse = productService.findAll();
+        return ResponseEntity.status(HttpStatus.OK).body(productResponse);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete item")
+    public ResponseEntity<ProductResponse> delete(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }
